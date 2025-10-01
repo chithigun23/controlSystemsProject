@@ -13,7 +13,7 @@ B = [0.16;
      0];
 
 C = eye(3);  % should be [0 0 1], but for the simulink to work, it needs to be doing the y isolation instead
-D = zeros(1, 3); % again, should be [0], but size is adjusted for the simulink
+D = zeros(3, 1); % again, should be [0], but size is adjusted for the simulink
 
 %% Step 1: Check controllability
 Co = ctrb(A,B);
