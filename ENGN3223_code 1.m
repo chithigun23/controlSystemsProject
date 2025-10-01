@@ -12,8 +12,8 @@ B = [0.16;
      11.7304; 
      0];
 
-C = [0 0 1];  % y = Δθ (Eq. 15)
-D = 0;
+C = eye(3);  % should be [0 0 1], but for the simulink to work, it needs to be doing the y isolation instead
+D = zeros(1, 3); % again, should be [0], but size is adjusted for the simulink
 
 %% Step 1: Check controllability
 Co = ctrb(A,B);
@@ -38,12 +38,12 @@ disp(char_poly);
 %% Step 3: Desired pole placement
 % Design requirements
 target_pitch_deg = 0.2;   % (for reference, scaling the step input)
-settling_time = 2.9;       % seconds (2% criterion)
+rise_time = 0.771;       % seconds
 overshoot = 10;          % percent
 
 % Compute damping ratio and natural frequency
-zeta = -log(overshoot/100) / sqrt(pi^2 + (log(overshoot/100))^2);
-wn   = 4 / (zeta * settling_time);
+zeta = sqrt((-1/pi*log(overshoot/100))^2/(1+(-1/pi*log(overshoot/100))^2));
+wn   = 1.8 / rise_time;
 
 % Dominant pole pair
 s1 = -zeta*wn + 1i*wn*sqrt(1-zeta^2);
